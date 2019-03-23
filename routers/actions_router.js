@@ -33,4 +33,34 @@ router.post("/", (req, res) => {
   }
 })
 
+router.get("/", (req, res) => {
+  actionsDB
+    .getAll()
+    .then(actions => {
+      const projects = actions.map(action => action.project_id) // Get all the projects ids
+      const uniqueProjs = projects.filter(
+        (project, index) => projects.indexOf(project) >= index
+      ) // remove all duplicates
+
+      let actionsProj = []
+      uniqueProjs.forEach(proj => {
+        // Build an array of actions that have the same project_id
+        let a = actions.filter(action => action.project_id === proj)
+        a = a.map(action => {
+          return {
+            ...action,
+            completed: action.action_completed ? true : false
+          }
+        })
+        actionsProj.push(a)
+      })
+      res.status(200).json(actionsProj)
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ error: "The actions information could not be retrieved." })
+    )
+})
+
 module.exports = router

@@ -4,7 +4,8 @@ const db = knex(knexConfig.development)
 
 module.exports = {
   addProject,
-  getById
+  getById,
+  getAll
 }
 
 function addProject(project) {
@@ -25,4 +26,8 @@ function getById(id) {
     .from("projects")
     .innerJoin("actions", "actions.project_id", "projects.id")
     .where({ "projects.id": Number(id) })
+}
+
+function getAll() {
+  return db("projects")
 }

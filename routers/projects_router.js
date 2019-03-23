@@ -21,6 +21,25 @@ router.post("/", (req, res) => {
       )
 })
 
+router.get("/", (req, res) => {
+  projectsDB
+    .getAll()
+    .then(projects => {
+      projects = projects.map(project => {
+        return {
+          ...project,
+          completed: project.project_completed ? true : false
+        }
+      })
+      res.status(200).json(projects)
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ error: "The projects information could not be retrieved." })
+    )
+})
+
 router.get("/:id", (req, res) => {
   const { id } = req.params
   projectsDB
