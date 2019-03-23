@@ -6,7 +6,8 @@ module.exports = {
   addAction,
   getAll,
   remove,
-  update
+  update,
+  getById
 }
 
 function addAction(action) {
@@ -17,6 +18,15 @@ function addAction(action) {
 
 function getAll() {
   return db("actions")
+}
+
+function getById(id) {
+  return db
+    .select("actions.*", "projects.proj_name")
+    .from("actions")
+    .innerJoin("projects", "projects.id", "actions.project_id")
+    .where({ "actions.id": Number(id) })
+    .first()
 }
 
 function remove(id) {

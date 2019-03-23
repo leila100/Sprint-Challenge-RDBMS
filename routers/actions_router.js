@@ -107,4 +107,22 @@ router.put("/:id", (req, res) => {
   }
 })
 
+router.get("/:id", (req, res) => {
+  const { id } = req.params
+  actionsDB
+    .getById(id)
+    .then(action => {
+      if (action) res.status(200).json(action)
+      else
+        res.status(400).json({
+          errorMessage: "Please provide a valid id for the action."
+        })
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ error: "The action information could not be retrieved." })
+    )
+})
+
 module.exports = router
