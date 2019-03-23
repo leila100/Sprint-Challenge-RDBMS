@@ -5,7 +5,8 @@ const db = knex(knexConfig.development)
 module.exports = {
   addAction,
   getAll,
-  remove
+  remove,
+  update
 }
 
 function addAction(action) {
@@ -22,4 +23,10 @@ function remove(id) {
   return db("actions")
     .where({ id: Number(id) })
     .del()
+}
+
+function update(id, action) {
+  return db("actions")
+    .where({ id: Number(id) })
+    .update(action)
 }

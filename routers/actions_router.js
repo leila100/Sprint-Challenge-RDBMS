@@ -81,4 +81,30 @@ router.delete("/:id", (req, res) => {
     )
 })
 
+router.put("/:id", (req, res) => {
+  const { id } = req.params
+  const { action_description, notes, action_completed, project_id } = req.body
+  if (!action_description || !notes || action_completed === null || !project_id)
+    res.status(400).json({
+      errorMessage:
+        "Please provide the action description, notes, completed flag, and project_id."
+    })
+  // Check that project id is valid
+  else {
+    projectsDB.getById(project_id).then(project => {
+      if (project.length > 0) {
+        actionsDB
+          .update(id, req.body)
+          .then(count => res.status(201).json(count))
+          .catch(err =>
+            res.status(500).json({
+              error:
+                "There was an error while updating the action in the database"
+            })
+          )
+      }
+    })
+  }
+})
+
 module.exports = router
