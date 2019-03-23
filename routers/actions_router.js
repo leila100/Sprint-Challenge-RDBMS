@@ -63,4 +63,22 @@ router.get("/", (req, res) => {
     )
 })
 
+router.delete("/:id", (req, res) => {
+  const { id } = req.params
+  actionsDB
+    .remove(id)
+    .then(count => {
+      if (count > 0) res.status(200).json(count)
+      else
+        res
+          .status(400)
+          .json({ errorMessage: "Please provide a valid action id." })
+    })
+    .catch(err =>
+      res.status(500).json({
+        error: "The action could not be removed from the database."
+      })
+    )
+})
+
 module.exports = router

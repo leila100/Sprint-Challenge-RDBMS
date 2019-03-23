@@ -4,7 +4,8 @@ const db = knex(knexConfig.development)
 
 module.exports = {
   addAction,
-  getAll
+  getAll,
+  remove
 }
 
 function addAction(action) {
@@ -15,4 +16,10 @@ function addAction(action) {
 
 function getAll() {
   return db("actions")
+}
+
+function remove(id) {
+  return db("actions")
+    .where({ id: Number(id) })
+    .del()
 }

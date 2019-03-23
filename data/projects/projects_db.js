@@ -5,7 +5,8 @@ const db = knex(knexConfig.development)
 module.exports = {
   addProject,
   getById,
-  getAll
+  getAll,
+  remove
 }
 
 function addProject(project) {
@@ -30,4 +31,10 @@ function getById(id) {
 
 function getAll() {
   return db("projects")
+}
+
+function remove(id) {
+  return db("projects")
+    .where({ id: Number(id) })
+    .del()
 }
