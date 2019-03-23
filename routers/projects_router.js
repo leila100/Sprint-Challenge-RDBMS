@@ -26,7 +26,7 @@ router.get("/:id", (req, res) => {
   projectsDB
     .getById(id)
     .then(project => {
-      if (project) {
+      if (project.length > 0) {
         const actions = project.map(action => {
           return {
             id: action.id,

@@ -12,15 +12,25 @@ router.post("/", (req, res) => {
         "Please provide the action description, notes, completed flag, and project_id."
     })
   // Check that project id is valid
-  else
-    actionsDB
-      .addAction(req.body)
-      .then(actionId => res.status(201).json(actionId))
-      .catch(err =>
-        res.status(500).json({
-          error: "There was an error while saving the action to the database"
+  else {
+    projectsDB.getById(project_id).then(project => {
+      if (project.length > 0) {
+        actionsDB
+          .addAction(req.body)
+          .then(actionId => res.status(201).json(actionId))
+          .catch(err =>
+            res.status(500).json({
+              error:
+                "There was an error while saving the action to the database"
+            })
+          )
+      } else {
+        res.status(400).json({
+          errorMessage: "Please provide a valid id for the project."
         })
-      )
+      }
+    })
+  }
 })
 
 module.exports = router
