@@ -5,7 +5,6 @@ const projectsDB = require("../data/projects/projects_db")
 
 router.post("/", (req, res) => {
   const { proj_name, proj_description, proj_completed } = req.body
-  console.log(proj_name, proj_description, proj_completed)
   if (!proj_name || !proj_description || proj_completed === null)
     res.status(400).json({
       errorMessage:

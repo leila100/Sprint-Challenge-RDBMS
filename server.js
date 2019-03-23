@@ -3,6 +3,7 @@ const helmet = require("helmet")
 const logger = require("morgan")
 
 const projectsRouter = require("./routers/projects_router")
+const actionsRouter = require("./routers/actions_router")
 
 const server = express()
 
@@ -11,6 +12,7 @@ server.use(helmet())
 server.use(logger("dev"))
 
 server.use("/api/projects", projectsRouter)
+server.use("/api/actions", actionsRouter)
 
 server.get("/", (req, res) => {
   res.status(200).json("Welcome to -- Sprint Challenge - RDMS -- ")
